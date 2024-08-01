@@ -22,14 +22,14 @@
                 <ValidationMessage For="() => Subjects.Name" class="text-danger" /> 
             </div>        
            <div class="mb-3">
-               <label for="majorid" class="form-label"Major:></label>
+               <label for="majorid" class="form-label">Major:</label>
                <InputSelect id="majorid" @bind-Value="Subjects.MajorId"class="form-control">
                    @foreach (var major in Majors)
                     {
                         <option value="@major.Id">@major.Name</option>
                     }
                 </InputSelect>
-                <ValiddationMessage For="() => Subjects.MajorId"class="text-danger" />
+                <ValidationMessage For="() => Subjects.MajorId"class="text-danger" />
            </div>          
             <div class="mb-3">
                 <label for="code" class="form-label">Code:</label> 

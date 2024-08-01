@@ -1,0 +1,29 @@
+﻿@page "/courses"
+
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using BlazorApp3.Models
+@inject IDbContextFactory<BlazorApp3.Data.ApplicationDbContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Courses</h1>
+
+<p>
+    <a href="courses/create"><i class="fa-solid fa-square-plus"></i></a>
+</p>
+
+<QuickGrid Class="table" Items="DbFactory.CreateDbContext().Courses.Include(m => m.Semester).Include(m => m.Subject).Include(m => m.Lecture)">
+    <PropertyColumn Property="courses => courses.Name" />
+    <PropertyColumn Property="courses => courses.StartDate" />
+    <PropertyColumn Property="courses => courses.EndDate" />
+    <PropertyColumn Property="courses => courses.Semester.Name" Title="Semester" />
+    <PropertyColumn Property="courses => courses.Lecture.Name" Title="Lecture" />
+    <PropertyColumn Property="courses => courses.Subject.Name" Title="Subject" />
+
+    <TemplateColumn Context="courses">
+        <a href="@($"courses/edit?id={courses.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
+        <a href="@($"courses/details?id={courses.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
+        <a href="@($"courses/delete?id={courses.Id}")"><i class="fa-solid fa-trash"></i></a>
+    </TemplateColumn>
+</QuickGrid>
