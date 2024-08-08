@@ -1,12 +1,11 @@
-﻿@page "/departments/create"
+﻿@page "/students/create"
 
 @using Microsoft.EntityFrameworkCore
 @using BlazorApp3.Models
 @inject IDbContextFactory<BlazorApp3.Data.ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
-@using Microsoft.AspNetCore.Authorization
+
 <PageTitle>Create</PageTitle>
-@attribute [Authorize(Policy = "Admin")]
 
 <h1><i class="fa-solid fa-square-plus"></i></h1>
 
@@ -18,10 +17,10 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" />
             <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <InputText id="name" @bind-Value="Departments.Name" class="form-control" />
-                <ValidationMessage For="() => Departments.Name" class="text-danger" />
-            </div>
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Departments.Name" class="form-control" /> 
+                <ValidationMessage For="() => Departments.Name" class="text-danger" /> 
+            </div>        
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>

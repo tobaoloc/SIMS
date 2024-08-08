@@ -7,6 +7,7 @@ namespace BlazorApp3.Data
     {
         public string Name { get; set; }
         public string Code { get; set; }
+        public string Role { get; set; }
 
     }
 

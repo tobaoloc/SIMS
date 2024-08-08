@@ -28,7 +28,7 @@
             <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Name" class="form-control"  aria-required="true" placeholder="Student's Name" />
+                <InputText @bind-Value="Input.Name" class="form-control" aria-required="true" placeholder="Student's Name" />
                 <label for="name">Name</label>
                 <ValidationMessage For="() => Input.Name" class="text-danger" />
             </div>
@@ -109,6 +109,7 @@
         }
 
         await SignInManager.SignInAsync(user, isPersistent: false);
+
         RedirectManager.RedirectTo(ReturnUrl);
     }
 
@@ -119,7 +120,8 @@
             return new ApplicationUser()
             {
                 Code = Input.Code,
-                Name = Input.Name
+                Name = Input.Name,
+                Role = "Student",
             };
         }
         catch
@@ -146,7 +148,7 @@
         public string Email { get; set; } = "";
 
         [Required]
-   
+
         [Display(Name = "Name")]
         public string Name { get; set; } = "";
 

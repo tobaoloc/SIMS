@@ -4,6 +4,9 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using BlazorApp3.Data
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication.Cookies
+
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
@@ -82,17 +85,28 @@
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 
     public async Task LoginUser()
     {
-        // This doesn't count login failures towards account lockout
-        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
         var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
+            var userLogin = await SignInManager.UserManager.FindByEmailAsync(Input.Email);
+            if (userLogin != null)
+            {
+                var claimsIdentity = (ClaimsIdentity)HttpContext.User.Identity;
+                if (!claimsIdentity.HasClaim(c => c.Type == "Role"))
+                {
+                    claimsIdentity.AddClaim(new Claim("Role", userLogin.Role));
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                }
+
+            }
+            // Redirect to the return URL or default page after successful login
             RedirectManager.RedirectTo(ReturnUrl);
         }
         else if (result.RequiresTwoFactor)
