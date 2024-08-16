@@ -1,29 +1,76 @@
 ﻿@page "/courses"
 
 @using Microsoft.EntityFrameworkCore
-@using Microsoft.AspNetCore.Components.QuickGrid
 @using BlazorApp3.Models
 @inject IDbContextFactory<BlazorApp3.Data.ApplicationDbContext> DbFactory
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Courses</PageTitle>
 
 <h1>Courses</h1>
 
-<p>
-    <a href="courses/create"><i class="fa-solid fa-square-plus"></i></a>
-</p>
+@if (BlazorApp3.Components.Layout.NavMenu.isAdmin)
+{
+    <p>
+        <a href="courses/create"><i class="fa-solid fa-square-plus"></i></a>
+    </p>
+}
 
-<QuickGrid Class="table" Items="DbFactory.CreateDbContext().Courses.Include(m => m.Semester).Include(m => m.Subject).Include(m => m.Lecture)">
-    <PropertyColumn Property="courses => courses.Name" />
-    <PropertyColumn Property="courses => courses.StartDate" />
-    <PropertyColumn Property="courses => courses.EndDate" />
-    <PropertyColumn Property="courses => courses.Semester.Name" Title="Semester" />
-    <PropertyColumn Property="courses => courses.Lecture.Name" Title="Lecture" />
-    <PropertyColumn Property="courses => courses.Subject.Name" Title="Subject" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Semester</th>
+            <th>Lecture</th>
+            <th>Subject</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Courses)
+        {
+            <tr>
+                <td>@course.Name</td>
+                <td>@course.StartDate.ToShortDateString()</td>
+                <td>@course.EndDate.ToShortDateString()</td>
+                <td>@course.Semester.Name</td>
+                <td>@course.Lecture.Name</td>
+                <td>@course.Subject.Name</td>
+                <td>
+                    @if (BlazorApp3.Components.Layout.NavMenu.isAdmin)
+                    {
+                        <a href="@($"courses/edit?id={course.Id}")"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href = "@($"courses / details ? id ={ course.Id}")" > <i class="fa-solid fa-circle-info"></i></a>
+                        <a href="@($"courses/delete? id = {course.Id}")"><i class="fa-solid fa-trash"></i></a>
+                        <br />
+                    }
+                        <a href="@($"courses/assign?id={course.Id}")">Assign students</a>
+                        <a href="@($"courses/grade?id={course.Id}")" class="ms-3">Add Grades</a>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-    <TemplateColumn Context="courses">
-        <a href="@($"courses/edit?id={courses.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
-        <a href="@($"courses/details?id={courses.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
-        <a href="@($"courses/delete?id={courses.Id}")"><i class="fa-solid fa-trash"></i></a>
-    </TemplateColumn>
-</QuickGrid>
+@code {
+        private List<Courses> Courses { get; set; } = new List<Courses>();
+private bool IsAdmin { get; set; }
+
+protected override async Task OnInitializedAsync()
+{
+        using var context = DbFactory.CreateDbContext();
+
+        Courses = await context.Courses
+            .Include(m => m.Semester)
+            .Include(m => m.Subject)
+            .Include(m => m.Lecture)
+            .ToListAsync();
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        IsAdmin = user.Claims.Any(c => c.Type == "Role" && c.Value == "Admin");
+}
+}

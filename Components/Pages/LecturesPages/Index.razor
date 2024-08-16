@@ -1,17 +1,18 @@
-﻿@page "/lectures"
+﻿@page "/lecturers"
 
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using BlazorApp3.Models
 @inject IDbContextFactory<BlazorApp3.Data.ApplicationDbContext> DbFactory
 
-<PageTitle>Manage Lectures</PageTitle>
+<PageTitle>Manage Lecturer</PageTitle>
 
-<h1>Manage Students</h1>
+<h1>Manage Lecturer</h1>
 
 <p>
-    <a href="lectures/create"><i class="fa-solid fa-square-plus"></i></a>
+    <a href="lecturers/create"><i class="fa-solid fa-square-plus"></i></a>
 </p>
+
 
 <QuickGrid Class="table"
            Items='@(DbFactory.CreateDbContext().ApplicationUser.Where(u => u.Role.Equals("Lecture")))'>
@@ -24,8 +25,12 @@
     <PropertyColumn Property="users => users.Role" />
 
     <TemplateColumn Context="users">
-        <a href="@($"users/edit?id={users.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
-        <a href="@($"users/details?id={users.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
-        <a href="@($"users/delete?id={users.Id}")"><i class="fa-solid fa-trash"></i></a>
+        <a href="@($"lecturers/edit?id={users.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
+        <a href="@($"lecturers/details?id={users.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
+        <a href="@($"lecturers/delete?id={users.Id}")"><i class="fa-solid fa-trash"></i></a>
     </TemplateColumn>
 </QuickGrid>
+@code
+{
+
+}

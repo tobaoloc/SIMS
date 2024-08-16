@@ -11,6 +11,7 @@ namespace BlazorApp3.Data
         public DbSet<BlazorApp3.Models.Majors> Majors { get; set; } = default!;
         public DbSet<BlazorApp3.Models.Subjects> Subjects { get; set; } = default!;
         public DbSet<BlazorApp3.Models.Courses> Courses { get; set; } = default!;
+        public DbSet<BlazorApp3.Models.StudentCourse> StudentCourses { get; set; } = default!;
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; } = default!;
     

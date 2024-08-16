@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp3", "BlazorApp3.csproj", "{EE9BC44E-3A78-4BE8-B50A-F51F80BA402F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing_SIMS2", "..\Testing_SIMS2\Testing_SIMS2.csproj", "{31EC392C-701C-4A18-BAB7-BE1252084C46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing_SIMS2", "..\Testing_SIMS2\Testing_SIMS2.csproj", "{31EC392C-701C-4A18-BAB7-BE1252084C46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

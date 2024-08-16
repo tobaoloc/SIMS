@@ -22,59 +22,60 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="semesters">
-                <i class="bi fa-solid fa-list"></i> Semesters
-            </NavLink>
-        </div>
         @if (isAdmin)
         {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="semesters">
+                    <i class="bi fa-solid fa-list"></i> Semesters
+                </NavLink>
+            </div>
+
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="departments">
                     <i class="bi fa-solid fa-check"></i> Departments
                 </NavLink>
             </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="majors">
+                    <i class="bi fa-solid fa-graduation-cap"></i> Majors
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="subjects">
+                    <i class="bi fa-solid fa-graduation-cap"></i> Subjects
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="lecturers">
+                    <i class="bi fa-solid fa-graduation-cap"></i> Lectures
+                </NavLink>
+            </div>
         }
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="majors">
-                <i class="bi fa-solid fa-graduation-cap"></i> Majors
-            </NavLink>
-        </div>
+        @if (isAdmin || isLecture)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="courses">
+                    <i class="bi fa-solid fa-graduation-cap"></i> Courses
+                </NavLink>
+            </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="subjects">
-                <i class="bi fa-solid fa-graduation-cap"></i> Subjects
-            </NavLink>
-        </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="students">
+                    <i class="bi fa-solid fa-graduation-cap"></i> Students
+                </NavLink>
+            </div>
+        }
+        @if (isStudent)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="courses/my-course">
+                    <i class="bi fa-solid fa-graduation-cap"></i> My course
+                </NavLink>
+            </div>
+        }
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="courses">
-                <i class="bi fa-solid fa-graduation-cap"></i> Courses
-            </NavLink>
-        </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="students">
-                <i class="bi fa-solid fa-graduation-cap"></i> Students
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="auth">
-                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
-            </NavLink>
-        </div>
 
         <AuthorizeView>
             <Authorized>
@@ -88,7 +89,7 @@
                         <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>
                         Logout
                     </NavLink>
-                    
+
 
                 </div>
             </Authorized>
@@ -110,9 +111,10 @@
 
 @code {
     private string? currentUrl;
-    private bool isStudent;
-    private bool isAdmin;
-    private bool isLecture;
+    public static bool isStudent;
+    public static bool isAdmin;
+    public static bool isLecture;
+    public static string? userId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -120,7 +122,8 @@
         NavigationManager.LocationChanged += OnLocationChanged;
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-
+         userId = user.FindFirst(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+             ?? user.FindFirst(c => c.Type == "sub")?.Value;
         // Check if the user is in the "Student" role
         isStudent = user.Claims.Any(c => c.Type == "Role" && c.Value == "Student");
         isAdmin = user.Claims.Any(c => c.Type == "Role" && c.Value == "Admin");
@@ -137,11 +140,6 @@
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
-    }
-    private void Logout()
-    {
-
-        Console.WriteLine("123123123");
     }
 }
 

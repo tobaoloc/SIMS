@@ -68,7 +68,7 @@ namespace BlazorApp3
                      }
                  };
              });
-
+            builder.Services.AddControllers();
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("Student", policy => policy.RequireClaim("Role", "Student"));
@@ -117,6 +117,7 @@ namespace BlazorApp3
 
             app.UseStaticFiles();
             app.UseAntiforgery();
+            app.MapControllers(); // Map API controllers
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
