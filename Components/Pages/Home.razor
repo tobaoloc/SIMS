@@ -2,62 +2,11 @@
 @page "/"
 @using BlazorApp3.Components.Layout
 
-@inject NavigationManager NavigationManager
-@inject AuthenticationStateProvider AuthenticationStateProvider
-
-
-<PageTitle>Home</PageTitle>
-
-@if (IsLoggedIn)
-{
-    <div class="main--content m-0 main-content-background" id="main--content">
-        <div class="row m-0">
-            <div class="row m-0" id="container-1">
-                <div class="col-lg-4 p-5" id="block-1">
-                    <span class="welcome-title">
-                        <h1>
-                            Welcome Back,
-                            <span id="user-name">@UserName</span>
-                        </h1>
-                    </span>
-                    <br>
-                    <div class="welcome-message">
-                        <p>Welcome to BTEC FPT!</p>
-                        <p>We are honored to accompany you on your journey of learning and development. Be ready to explore and conquer new challenges at BTEC FPT!</p>
-                    </div>
-                </div>
-                <div class="col-lg-8 p-3 align-self-center">
-                    <img src="homepage.png" width="800" height="490">
-                </div>
-            </div>
-        </div>
+<div class="login-container">
+    <div class="login-message">
+        <h1>Welcome to BTEC, the international training environment</h1>
+        <p class="sub-message">Please log in to access your dashboard</p>
+        <a href="Account/Login" class="login-link">Login</a>
+        <p class="sub-message1">If you do not have an account, click <a href="Account/Register" class="login-link">register</a></p>
     </div>
-}
-else
-{
-    <div class="login-container">
-        <div class="login-message">
-            <h1>Welcome to BTEC, the international training environment</h1>
-            <p class="sub-message">Please log in to access your dashboard</p>
-            <a href="Account/Login" class="login-link">Login</a>
-            <p class="sub-message1">If you do not have an account, click <a href="Account/Register" class="login-link">register</a></p>
-        </div>
-    </div>
-}
-
-@code {
-    private bool IsLoggedIn = false;
-    private string UserName = string.Empty;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        IsLoggedIn = user.Identity?.IsAuthenticated ?? false;
-        if (IsLoggedIn)
-        {
-            UserName = user.Identity?.Name ?? "User";
-        }
-    }
-}
+</div>
