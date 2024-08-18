@@ -49,3 +49,58 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+.main-content-background {
+    background-color: #6495ED;
+}
+
+.welcome-message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+}
+.login-container {
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    color: white;
+}
+
+.login-message {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+}
+
+    .login-message h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+.sub-message {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.sub-message1 {
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.login-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+    .login-link:hover {
+        text-decoration: underline;
+    }

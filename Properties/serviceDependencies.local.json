@@ -3,9 +3,8 @@
     "mssql1": {
       "serviceConnectorResourceId": "",
       "secretStore": "LocalSecretsFile",
-      "resourceId": null,
       "type": "mssql.onprem",
-      "connectionId": "ConnectionStrings:SIMS_LOCAL"
+      "connectionId": "ConnectionStrings:SIMS"
     }
   }
 }
