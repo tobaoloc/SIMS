@@ -10,16 +10,83 @@
 <h1>Majors</h1>
 
 <p>
-    <a href="majors/create"><i class="fa-solid fa-square-plus"></i></a>
+    <a href="majors/create" class="btn btn-sm btn-outline-primary" title="Create Major">
+        <i class="fa-solid fa-square-plus"></i>
+    </a>
 </p>
 
-<QuickGrid Class="table" Items="DbFactory.CreateDbContext().Majors.Include(m=>m.Department)">
-    <PropertyColumn Property="majors => majors.Name" />
-    <PropertyColumn Property="majors => majors.Department.Name" Title="Department Name"/>
+<div class="table-responsive">
+    <QuickGrid Class="table table-striped table-hover align-middle" Items="DbFactory.CreateDbContext().Majors.Include(m => m.Department)">
+        <PropertyColumn Property="majors => majors.Name" />
+        <PropertyColumn Property="majors => majors.Department.Name" Title="Department Name" />
 
-    <TemplateColumn Context="majors">
-        <a href="@($"majors/edit?id={majors.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
-        <a href="@($"majors/details?id={majors.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
-        <a href="@($"majors/delete?id={majors.Id}")"><i class="fa-solid fa-trash"></i></a>
-    </TemplateColumn>
-</QuickGrid>
+        <TemplateColumn Context="majors">
+            <div class="d-flex flex-column flex-sm-row gap-2">
+                <a href="@($"majors/edit?id={majors.Id}")" class="btn btn-sm btn-outline-primary" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="@($"majors/details?id={majors.Id}")" class="btn btn-sm btn-outline-info" title="Details">
+                    <i class="fa-solid fa-circle-info"></i>
+                </a>
+                <a href="@($"majors/delete?id={majors.Id}")" class="btn btn-sm btn-outline-danger" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
+
+<style>
+  .table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+  }
+
+  .table td {
+    vertical-align: middle;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .btn-outline-primary,
+  .btn-outline-info,
+  .btn-outline-danger,
+  .btn-outline-success,
+  .btn-outline-warning {
+    border-width: 2px;
+  }
+
+  .btn-outline-primary:hover,
+  .btn-outline-info:hover,
+  .btn-outline-danger:hover,
+  .btn-outline-success:hover,
+  .btn-outline-warning:hover {
+    color: #fff;
+  }
+
+ 
+</style>
+

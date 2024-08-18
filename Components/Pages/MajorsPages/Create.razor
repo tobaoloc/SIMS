@@ -11,34 +11,88 @@
 
 <h4>Majors</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <EditForm method="post" Model="Majors" OnValidSubmit="AddMajors" FormName="create" Enhance>
-            <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" />
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label> 
-                <InputText id="name" @bind-Value="Majors.Name" class="form-control" /> 
-                <ValidationMessage For="() => Majors.Name" class="text-danger" /> 
-            </div>        
-           <div class="mb-3">
-               <label for="departmentid" class="form-label">Department:</label>
-               <InputSelect id="departmentid" @bind-Value="Majors.DepartmentId"class="form-control">
-                   @foreach (var department in Departments)
-                    {
-                        <option value="@department.Id">@department.Name</option>
-                    }
-                </InputSelect>
-                <ValidationMessage For="() => Majors.DepartmentId"class="text-danger" />
-           </div>      
-            <button type="submit" class="btn btn-primary">Create</button>
-        </EditForm>
+<div class="container mt-5">
+    <h4 class="mb-3">Create Major</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <section class="card shadow-sm">
+                <div class="card-body">
+                    <EditForm method="post" Model="Majors" OnValidSubmit="AddMajors" FormName="create" Enhance>
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger" role="alert" />
+
+                        <div class="form-floating mb-3">
+                            <InputText id="name" @bind-Value="Majors.Name" class="form-control" placeholder="Major Name" />
+                            <label for="name" class="form-label">Name:</label>
+                            <ValidationMessage For="() => Majors.Name" class="text-danger" />
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <InputSelect id="departmentid" @bind-Value="Majors.DepartmentId" class="form-control">
+                                @foreach (var department in Departments)
+                                {
+                                    <option value="@department.Id">@department.Name</option>
+                                }
+                            </InputSelect>
+                            <label for="departmentid" class="form-label">Department:</label>
+                            <ValidationMessage For="() => Majors.DepartmentId" class="text-danger" />
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/majors" class="text-decoration-none">Back to List</a>
     </div>
 </div>
 
-<div>
-    <a href="/majors">Back to List</a>
-</div>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-title {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .text-decoration-none {
+        color: #007bff;
+    }
+
+        .text-decoration-none:hover {
+            color: #0056b3;
+            text-decoration: underline !important;
+        }
+</style>
+
 
 @code {
 

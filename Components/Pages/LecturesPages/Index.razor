@@ -10,26 +10,90 @@
 <h1>Manage Lecturer</h1>
 
 <p>
-    <a href="lecturers/create"><i class="fa-solid fa-square-plus"></i></a>
+    <a href="lecturers/create" class="btn btn-sm btn-outline-primary" title="Create Lecturer">
+        <i class="fa-solid fa-square-plus"></i>
+    </a>
 </p>
 
+<div class="table-responsive">
+    <QuickGrid Class="table table-striped table-hover align-middle"
+               Items='@(DbFactory.CreateDbContext().ApplicationUser.Where(u => u.Role.Equals("Lecture")))'>
+        <PropertyColumn Property="users => users.Name" />
+        <PropertyColumn Property="users => users.Code" />
+        <PropertyColumn Property="users => users.PhoneNumber" />
+        <PropertyColumn Property="users => users.Email" />
+        <PropertyColumn Property="users => users.Role" />
 
-<QuickGrid Class="table"
-           Items='@(DbFactory.CreateDbContext().ApplicationUser.Where(u => u.Role.Equals("Lecture")))'>
+        <TemplateColumn Context="users">
+            <div class="d-flex flex-column flex-sm-row gap-2">
+                <a href="@($"lecturers/edit?id={users.Id}")" class="btn btn-sm btn-outline-primary" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="@($"lecturers/details?id={users.Id}")" class="btn btn-sm btn-outline-info" title="Details">
+                    <i class="fa-solid fa-circle-info"></i>
+                </a>
+                <a href="@($"lecturers/delete?id={users.Id}")" class="btn btn-sm btn-outline-danger" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
 
+<style>
+  .table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
 
-    <PropertyColumn Property="users => users.Name" />
-    <PropertyColumn Property="users => users.Code" />
-    <PropertyColumn Property="users => users.PhoneNumber" />
-    <PropertyColumn Property="users => users.Email" />
-    <PropertyColumn Property="users => users.Role" />
+  .table {
+    margin-bottom: 0;
+  }
 
-    <TemplateColumn Context="users">
-        <a href="@($"lecturers/edit?id={users.Id}")"><i class="fa-solid fa-pen-to-square"></i></a> |
-        <a href="@($"lecturers/details?id={users.Id}")"><i class="fa-solid fa-circle-info"></i></a> |
-        <a href="@($"lecturers/delete?id={users.Id}")"><i class="fa-solid fa-trash"></i></a>
-    </TemplateColumn>
-</QuickGrid>
+  .table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+  }
+
+  .table td {
+    vertical-align: middle;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .btn-outline-primary,
+  .btn-outline-info,
+  .btn-outline-danger,
+  .btn-outline-success,
+  .btn-outline-warning {
+    border-width: 2px;
+  }
+
+  .btn-outline-primary:hover,
+  .btn-outline-info:hover,
+  .btn-outline-danger:hover,
+  .btn-outline-success:hover,
+  .btn-outline-warning:hover {
+    color: #fff;
+  }
+
+ 
+</style>
+
 @code
 {
 
