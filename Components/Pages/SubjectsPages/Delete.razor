@@ -19,22 +19,61 @@
         <p><em>Loading...</em></p>
     }
     else {
-        <dl class="row">
-            <dt class="col-sm-2">Name</dt>
-            <dd class="col-sm-10">@subjects.Name</dd>
-        </dl>
-        <dl class="row">
-            <dt class="col-sm-2">Major</dt>
-            <dd class="col-sm-10">@subjects.Name</dd>
-        </dl>
-        <dl class="row">
-            <dt class="col-sm-2">Code</dt>
-            <dd class="col-sm-10">@subjects.Name</dd>
-        </dl>
-        <EditForm method="post" Model="subjects" OnValidSubmit="DeleteSubjects" FormName="delete" Enhance>
-            <button type="submit" class="btn btn-danger" disabled="@(subjects is null)">Delete</button> |
-            <a href="/subjects">Back to List</a>
-        </EditForm>
+        <div class="container mt-5">
+            <h4 class="mb-3">Subject Details</h4>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9">@subjects.Name</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-3">Major</dt>
+                        <dd class="col-sm-9">@subjects.Major.Name</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-3">Code</dt>
+                        <dd class="col-sm-9">@subjects.Code</dd>
+                    </dl>
+                    <EditForm method="post" Model="subjects" OnValidSubmit="DeleteSubjects" FormName="delete" Enhance>
+                        <button type="submit" class="btn btn-danger" disabled="@(subjects is null)">Delete</button>
+                        |
+                        <a href="/subjects" class="text-decoration-none ms-2">Back to List</a>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .container {
+                padding: 2rem;
+            }
+
+            .btn-danger {
+                background-color: #dc3545;
+                border-color: #dc3545;
+            }
+
+                .btn-danger:hover {
+                    background-color: #c82333;
+                    border-color: #bd2130;
+                }
+
+            .text-decoration-none {
+                color: #007bff;
+            }
+
+                .text-decoration-none:hover {
+                    color: #0056b3;
+                    text-decoration: underline;
+                }
+
+            .mb-3 {
+                margin-bottom: 1rem;
+            }
+        </style>
+
     }
 </div>
 

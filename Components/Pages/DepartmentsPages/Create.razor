@@ -9,26 +9,77 @@
 
 <h1><i class="fa-solid fa-square-plus"></i></h1>
 
-<h4>Departments</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <EditForm method="post" Model="Departments" OnValidSubmit="AddDepartments" FormName="create" Enhance>
-            <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" />
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <InputText id="name" @bind-Value="Departments.Name" class="form-control" />
-                <ValidationMessage For="() => Departments.Name" class="text-danger" />
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </EditForm>
+<div class="container mt-5">
+    <h4 class="mb-3">Departments</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <section class="card shadow-sm">
+                <div class="card-body">
+                    <EditForm method="post" Model="Departments" OnValidSubmit="AddDepartments" FormName="create" Enhance>
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger" role="alert" />
+
+                        <div class="form-floating mb-3">
+                            <InputText id="name" @bind-Value="Departments.Name" class="form-control" placeholder="Department Name" />
+                            <label for="name" class="form-label">Name:</label>
+                            <ValidationMessage For="() => Departments.Name" class="text-danger" />
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/departments" class="text-decoration-none">Back to List</a>
     </div>
 </div>
 
-<div>
-    <a href="/departments">Back to List</a>
-</div>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-title {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .text-decoration-none {
+        color: #007bff;
+    }
+
+        .text-decoration-none:hover {
+            color: #0056b3;
+            text-decoration: underline !important;
+        }
+</style>
+
 
 @code {
 
