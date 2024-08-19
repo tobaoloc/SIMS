@@ -17,7 +17,7 @@
 
 <PageTitle>Register</PageTitle>
 
-<h1>Register</h1>
+
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -166,7 +166,8 @@
 
         await SignInManager.SignInAsync(user, isPersistent: false);
 
-        RedirectManager.RedirectTo(ReturnUrl);
+       
+        NavigationManager.NavigateTo("/Account/Login");
     }
 
     private ApplicationUser CreateUser()

@@ -1,0 +1,181 @@
+﻿@page "/students/edit"
+
+@using Microsoft.AspNetCore.Identity
+@using BlazorApp3.Data
+@using BlazorApp3.Models
+@using Microsoft.EntityFrameworkCore
+@using System.ComponentModel.DataAnnotations
+
+
+@inject IDbContextFactory<BlazorApp3.Data.ApplicationDbContext> DbFactory
+@inject SignInManager<ApplicationUser> SignInManager
+@inject BlazorApp3.Components.Account.IdentityUserAccessor UserAccessor
+@inject BlazorApp3.Components.Account.IdentityRedirectManager RedirectManager
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit Student</PageTitle>
+
+@if (Student == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container mt-5">
+        <h4 class="mb-3">Edit Student</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <section class="card shadow-sm">
+                    <div class="card-body">
+                        <EditForm Model="Input" OnValidSubmit="OnValidSubmitAsync" FormName="EditStudent">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary class="text-danger mb-3" />
+
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name:</label>
+                                <InputText @bind-Value="Input.Name" class="form-control" />
+                                <ValidationMessage For="() => Input.Name" class="text-danger" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email:</label>
+                                <InputText @bind-Value="Input.Email" class="form-control" />
+                                <ValidationMessage For="() => Input.Email" class="text-danger" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="/students" class="btn btn-secondary ms-2">Cancel</a>
+                        </EditForm>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/students">Back to List</a>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .ms-2 {
+        margin-left: 0.5rem;
+    }
+
+    .mt-5 {
+        margin-top: 3rem;
+    }
+</style>
+
+@code {
+    private ApplicationUser Student = default!;
+    private string? currentName;
+    private string? currentEmail;
+
+    [SupplyParameterFromQuery]
+    public string Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Student = await context.Users.FindAsync(Id);
+
+        if (Student == null)
+        {
+            return;
+        }
+
+        currentName = Student.Name;
+        currentEmail = Student.Email;
+
+        Input.Name ??= currentName;
+        Input.Email ??= currentEmail;
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        if (Input.Name != currentName)
+        {
+            Student.Name = Input.Name;
+        }
+
+        if (Input.Email != currentEmail)
+        {
+            Student.Email = Input.Email;
+            Student.NormalizedEmail = Input.Email.ToUpper();
+        }
+
+        context.Entry(Student).State = EntityState.Modified;
+
+        await context.SaveChangesAsync();
+
+        await SignInManager.RefreshSignInAsync(Student);
+        NavigationManager.NavigateTo("/students");
+    }
+
+    private sealed class InputModel
+    {
+        [Required]
+        [Display(Name = "Name")]
+        public string? Name { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string? Email { get; set; }
+    }
+}

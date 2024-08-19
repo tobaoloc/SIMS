@@ -1,4 +1,5 @@
-﻿@page "/Departments/edit"
+﻿
+@page "/lectures/edit"
 
 @using Microsoft.EntityFrameworkCore
 @using BlazorApp3.Models
@@ -17,82 +18,21 @@
 }
 else
 {
-    <div class="container mt-5">
-        <h4 class="mb-3">Edit Department</h4>
-        <hr />
-        <div class="row">
-            <div class="col-md-6">
-                <section class="card shadow-sm">
-                    <div class="card-body">
-                        <EditForm method="post" Model="Departments" OnValidSubmit="UpdateDepartments" FormName="edit" Enhance>
-                            <DataAnnotationsValidator />
-                            <ValidationSummary class="text-danger" />
-                            <input type="hidden" name="Departments.Id" value="@Departments.Id" />
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name:</label>
-                                <InputText id="name" @bind-Value="Departments.Name" class="form-control" placeholder="Enter department name" />
-                                <ValidationMessage For="() => Departments.Name" class="text-danger" />
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="/departments" class="btn btn-secondary ms-2">Back to List</a>
-                        </EditForm>
-                    </div>
-                </section>
-            </div>
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Departments" OnValidSubmit="UpdateDepartments" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="Departments.Id" value="@Departments.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Departments.Name" class="form-control" />
+                    <ValidationMessage For="() => Departments.Name" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
         </div>
     </div>
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-        }
-
-        .card-body {
-            padding: 2rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-            .btn-primary:hover {
-                background-color: #0056b3;
-                border-color: #0056b3;
-            }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-
-            .btn-secondary:hover {
-                background-color: #5a6268;
-                border-color: #545b62;
-            }
-
-        .text-danger {
-            color: #dc3545;
-        }
-
-        .mb-3 {
-            margin-bottom: 1rem;
-        }
-
-        .ms-2 {
-            margin-left: 0.5rem;
-        }
-    </style>
-
 }
 
 <div>
